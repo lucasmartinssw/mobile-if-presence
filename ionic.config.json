@@ -1,0 +1,7 @@
+{
+  "name": "if_presence",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
