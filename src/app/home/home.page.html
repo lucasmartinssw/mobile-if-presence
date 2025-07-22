@@ -12,7 +12,9 @@
     <ion-button expand="block" (click)="getCurrentLocationAndValidate()">
       Verificar Minha Localização
     </ion-button>
-
+    <ion-button expand="block" color="success" class="ion-margin-top" (click)="registerAttendanceDirectly()">
+      Registrar Presença (Teste Manual)
+    </ion-button>
     <!-- Exibir informações de localização para feedback (opcional) -->
     <ion-card *ngIf="currentLatitude !== null">
       <ion-card-header>
@@ -35,22 +37,20 @@
   </div>
 
   <!-- Componente IonAlert para exibir mensagens ao usuário -->
-  <ion-alert
-    [isOpen]="showAlert"
-    [message]="alertMessage"
-    [buttons]="['OK']"
-    (didDismiss)="dismissAlert()"
-  ></ion-alert>
+  <ion-alert [isOpen]="showAlert" [message]="alertMessage" [buttons]="['OK']" (didDismiss)="dismissAlert()"></ion-alert>
 </ion-content>
 
 <!-- Estilos básicos para as classes 'success' e 'danger' -->
 <style>
   .success {
-    color: var(--ion-color-success, #2dd36f); /* Cor verde padrão do Ionic */
+    color: var(--ion-color-success, #2dd36f);
+    /* Cor verde padrão do Ionic */
     font-weight: bold;
   }
+
   .danger {
-    color: var(--ion-color-danger, #eb445a); /* Cor vermelha padrão do Ionic */
+    color: var(--ion-color-danger, #eb445a);
+    /* Cor vermelha padrão do Ionic */
     font-weight: bold;
   }
 </style>
