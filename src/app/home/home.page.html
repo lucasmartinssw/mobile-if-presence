@@ -1,20 +1,56 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>Presença Geolocalizada</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="ion-padding">
+    <h1>Verificar Localização</h1>
+    <p>Clique no botão para verificar se você está na área da escola.</p>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <ion-button expand="block" (click)="getCurrentLocationAndValidate()">
+      Verificar Minha Localização
+    </ion-button>
+
+    <!-- Exibir informações de localização para feedback (opcional) -->
+    <ion-card *ngIf="currentLatitude !== null">
+      <ion-card-header>
+        <ion-card-title>Sua Localização</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Latitude: {{ currentLatitude | number:'1.6-6' }}</p>
+        <p>Longitude: {{ currentLongitude | number:'1.6-6' }}</p>
+        <!-- Apenas mostra a distância se ela tiver sido calculada -->
+        <p *ngIf="distanceToSchool !== null">Distância da Escola: {{ distanceToSchool | number:'1.2-2' }} metros</p>
+        <!-- Mostra o status de área com cores -->
+        <p *ngIf="isInSchoolArea !== null">
+          Status:
+          <span [class.success]="isInSchoolArea" [class.danger]="!isInSchoolArea">
+            {{ isInSchoolArea ? 'Dentro da Área' : 'Fora da Área' }}
+          </span>
+        </p>
+      </ion-card-content>
+    </ion-card>
   </div>
+
+  <!-- Componente IonAlert para exibir mensagens ao usuário -->
+  <ion-alert
+    [isOpen]="showAlert"
+    [message]="alertMessage"
+    [buttons]="['OK']"
+    (didDismiss)="dismissAlert()"
+  ></ion-alert>
 </ion-content>
+
+<!-- Estilos básicos para as classes 'success' e 'danger' -->
+<style>
+  .success {
+    color: var(--ion-color-success, #2dd36f); /* Cor verde padrão do Ionic */
+    font-weight: bold;
+  }
+  .danger {
+    color: var(--ion-color-danger, #eb445a); /* Cor vermelha padrão do Ionic */
+    font-weight: bold;
+  }
+</style>
