@@ -1,0 +1,511 @@
+// Variáveis de cores
+:root {
+  --primary-green: #1B4332;
+  --secondary-green: #2D5F41;
+  --light-green: #40916C;
+  --accent-green: #52B788;
+  --pure-white: #FFFFFF;
+  --light-gray: #F8F9FA;
+  --text-gray: #6C757D;
+  --error-red: #DC3545;
+  --shadow-color: rgba(27, 67, 50, 0.1);
+}
+
+.login-content {
+  --background: url('../../app/images/kta.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow-y: auto;
+}
+
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+}
+
+// Seção do cabeçalho
+.header-section {
+  text-align: center;
+  margin-bottom: 30px;
+  
+  .title-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  
+  .custom-logo {
+    position: absolute;
+    left: -70px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 0;
+    
+    .logo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 16px);
+      grid-template-rows: repeat(4, 16px);
+      gap: 2px;
+      width: 52px;
+      height: 70px;
+      
+      .red-circle {
+        width: 16px;
+        height: 16px;
+        background-color: #DC3545;
+        border-radius: 50%;
+        grid-column: 1;
+        grid-row: 1;
+      }
+      
+      .green-square {
+        width: 16px;
+        height: 16px;
+        background-color: #40916C;
+        border-radius: 2px;
+        
+        &:nth-child(2) { grid-column: 2; grid-row: 1; }
+        &:nth-child(3) { grid-column: 3; grid-row: 1; }
+        &:nth-child(4) { grid-column: 1; grid-row: 2; }
+        &:nth-child(5) { grid-column: 2; grid-row: 2; }
+        &:nth-child(6) { grid-column: 1; grid-row: 3; }
+        &:nth-child(7) { grid-column: 2; grid-row: 3; }
+        &:nth-child(8) { grid-column: 3; grid-row: 3; }
+        &:nth-child(9) { grid-column: 1; grid-row: 4; }
+        &:nth-child(10) { grid-column: 2; grid-row: 4; }
+      }
+    }
+  }
+  
+  .app-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin: 0;
+    text-shadow: 
+      0 2px 4px rgba(0, 0, 0, 0.8),
+      0 4px 8px rgba(0, 0, 0, 0.6),
+      0 0 20px rgba(255, 255, 255, 0.3);
+    letter-spacing: 2px;
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+  }
+  
+  .app-subtitle {
+    font-size: 1rem;
+    color: #FFFFFF;
+    margin: 8px 0 0 0;
+    font-weight: 400;
+    text-shadow: 
+      0 1px 3px rgba(0, 0, 0, 0.7),
+      0 2px 6px rgba(0, 0, 0, 0.5);
+  }
+}
+
+// Card de login
+.login-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 40px 30px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  
+  .card-header {
+    text-align: center;
+    margin-bottom: 30px;
+    
+    h2 {
+      font-size: 1.5rem;
+      color: var(--primary-green);
+      margin: 0;
+      font-weight: 600;
+    }
+  }
+}
+
+// Formulário
+.login-form {
+  .input-group {
+    margin-bottom: 24px;
+    position: relative;
+    
+    .input-wrapper {
+      position: relative;
+      background: rgba(248, 249, 250, 0.9);
+      border-radius: 16px;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.95);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(82, 183, 136, 0.15);
+      }
+      
+      &:focus-within {
+        border-color: var(--accent-green);
+        background: var(--pure-white);
+        box-shadow: 0 0 0 4px rgba(82, 183, 136, 0.1);
+      }
+      
+      .input-icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-gray);
+        font-size: 22px;
+        z-index: 2;
+        transition: all 0.3s ease;
+      }
+      
+      &:focus-within .input-icon {
+        color: var(--accent-green);
+        transform: translateY(-50%) scale(1.1);
+      }
+    }
+    
+    .custom-input {
+      --background: transparent;
+      --padding-start: 55px;
+      --padding-end: 20px;
+      --padding-top: 20px;
+      --padding-bottom: 20px;
+      --min-height: 64px;
+      border: none;
+      
+      ion-label {
+        --color: var(--text-gray);
+        font-weight: 600;
+        font-size: 0.9rem;
+        
+        &.label-floating {
+          --color: var(--accent-green);
+          font-weight: 700;
+        }
+      }
+      
+      ion-input, ion-select {
+        --color: var(--primary-green);
+        font-weight: 500;
+        font-size: 1rem;
+        
+        &::placeholder {
+          color: rgba(108, 117, 125, 0.6);
+          font-style: italic;
+        }
+      }
+    }
+  }
+}
+
+// Botão de login - Cor verde garantida sem sobreposições
+ion-button.login-button {
+  --background: #52B788 !important;
+  --background-hover: #40916C !important;
+  --background-activated: #2D5F41 !important;
+  --color: #FFFFFF !important;
+  --border-radius: 12px;
+  --padding-top: 18px;
+  --padding-bottom: 18px;
+  --box-shadow: 0 4px 16px rgba(82, 183, 136, 0.4);
+  
+  margin-top: 24px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-transform: none;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  
+  // Remover qualquer sobreposição e garantir cor verde
+  background: #52B788 !important;
+  background-image: none !important;
+  background-color: #52B788 !important;
+  color: #FFFFFF !important;
+  position: relative;
+  z-index: 10;
+  
+  // Remover pseudo-elementos que podem causar sobreposição
+  &::before,
+  &::after {
+    display: none !important;
+    content: none !important;
+  }
+  
+  // Elemento nativo do botão
+  .button-native {
+    background: #52B788 !important;
+    background-image: none !important;
+    background-color: #52B788 !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    box-shadow: none !important;
+    
+    &::before,
+    &::after {
+      display: none !important;
+      content: none !important;
+    }
+  }
+  
+  // Estados do botão
+  &:not([disabled]):not(.button-disabled) {
+    background: #52B788 !important;
+    background-color: #52B788 !important;
+    background-image: none !important;
+    color: #FFFFFF !important;
+    
+    &:hover {
+      background: #40916C !important;
+      background-color: #40916C !important;
+      background-image: none !important;
+      transform: translateY(-2px);
+      --box-shadow: 0 6px 20px rgba(82, 183, 136, 0.5);
+    }
+    
+    &:active {
+      background: #2D5F41 !important;
+      background-color: #2D5F41 !important;
+      background-image: none !important;
+    }
+  }
+  
+  // Estado desabilitado
+  &[disabled],
+  &.button-disabled {
+    background: #6C757D !important;
+    background-color: #6C757D !important;
+    background-image: none !important;
+    color: #FFFFFF !important;
+    opacity: 0.6;
+  }
+  
+  // Conteúdo interno
+  .button-inner {
+    color: #FFFFFF !important;
+    background: transparent !important;
+  }
+  
+  ion-icon {
+    color: #FFFFFF !important;
+    margin-right: 8px;
+    font-size: 18px;
+    background: transparent !important;
+  }
+  
+  // Remover efeitos que podem causar sobreposição
+  .button-effect,
+  .ripple-effect,
+  ion-ripple-effect {
+    display: none !important;
+  }
+  
+  // Garantir que não há overlay do tema
+  &.ion-color-primary {
+    --background: #52B788 !important;
+    --color: #FFFFFF !important;
+    background: #52B788 !important;
+    color: #FFFFFF !important;
+  }
+  
+  // Sobrescrever qualquer classe do Ionic
+  &.button-solid.ion-color.ion-color-primary {
+    background: #52B788 !important;
+    background-color: #52B788 !important;
+    color: #FFFFFF !important;
+  }
+}
+
+// Mensagem de erro
+.error-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-top: 20px;
+  
+  ion-icon {
+    color: var(--error-red);
+    font-size: 18px;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+  
+  span {
+    color: var(--error-red);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+  }
+}
+
+// Rodapé
+.footer-section {
+  margin-top: 30px;
+  text-align: center;
+  
+  p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    margin: 0;
+    font-weight: 300;
+  }
+}
+
+// Responsividade para tablets
+@media (min-width: 768px) {
+  .login-card {
+    padding: 50px 40px;
+    max-width: 450px;
+  }
+  
+  .header-section {
+    .app-title {
+      font-size: 2.5rem;
+      text-shadow: 
+        0 3px 6px rgba(0, 0, 0, 0.8),
+        0 6px 12px rgba(0, 0, 0, 0.6),
+        0 0 25px rgba(255, 255, 255, 0.3);
+    }
+    
+    .custom-logo {
+      left: -90px;
+      
+      .logo-grid {
+        grid-template-columns: repeat(3, 20px);
+        grid-template-rows: repeat(4, 20px);
+        gap: 2px;
+        width: 64px;
+        height: 82px;
+        
+        .red-circle, .green-square {
+          width: 20px;
+          height: 20px;
+        }
+        
+        .green-square {
+          background-color: #40916C;
+        }
+      }
+    }
+  }
+}
+
+// Responsividade para desktop
+@media (min-width: 1024px) {
+  .login-container {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .header-section {
+    flex: 1;
+    margin-bottom: 0;
+    margin-right: 50px;
+    text-align: left;
+    
+    .app-title {
+      font-size: 3rem;
+      text-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.8),
+        0 8px 16px rgba(0, 0, 0, 0.6),
+        0 0 30px rgba(255, 255, 255, 0.4);
+    }
+    
+    .app-subtitle {
+      font-size: 1.2rem;
+      text-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.7),
+        0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+    
+    .custom-logo {
+      left: -105px;
+      
+      .logo-grid {
+        grid-template-columns: repeat(3, 24px);
+        grid-template-rows: repeat(4, 24px);
+        gap: 3px;
+        width: 78px;
+        height: 99px;
+        
+        .red-circle, .green-square {
+          width: 24px;
+          height: 24px;
+        }
+        
+        .green-square {
+          background-color: #40916C;
+        }
+      }
+    }
+  }
+  
+  .login-card {
+    flex: 0 0 450px;
+  }
+}
+
+// Animações
+.login-card {
+  animation: slideUp 0.6s ease-out;
+}
+
+.header-section {
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Estilo para o select no modo popover
+ion-popover {
+  --background: var(--pure-white);
+  --border-radius: 12px;
+  --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  
+  ion-select-option {
+    --color: var(--primary-green);
+    
+    &.select-option-selected {
+      --background: rgba(82, 183, 136, 0.1);
+      --color: var(--accent-green);
+      font-weight: 600;
+    }
+  }
+}

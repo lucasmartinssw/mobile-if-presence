@@ -1,40 +1,97 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="login-content">
+  <div class="login-container">
+    <!-- Logo/Header Section -->
+    <div class="header-section">
+      <div class="title-container">
+        <div class="custom-logo">
+          <div class="logo-grid">
+            <div class="red-circle"></div>
+            <div class="green-square"></div>
+            <div class="green-square"></div>
+            <div class="green-square"></div>
+            <div class="green-square"></div>
+            <div class="green-square"></div>
+            <div class="green-square"></div>
+            <div class="green-square"></div>
+            <div class="green-square"></div>
+            <div class="green-square"></div>
+          </div>
+        </div>
+        <h1 class="app-title">PRESENCE</h1>
+      </div>
+      <p class="app-subtitle">Sistema de Controle de Presença</p>
+    </div>
 
-<ion-content class="ion-padding">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Acesso ao Sistema</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <form (ngSubmit)="login()">
-        <ion-item>
-          <ion-label position="floating">Usuário (E-mail)</ion-label>
-          <ion-input type="email" [(ngModel)]="username" name="username" required></ion-input>
-        </ion-item>
+    <!-- Login Card -->
+    <div class="login-card">
+      <div class="card-header">
+        <h2>Acesso ao Sistema</h2>
+      </div>
+      
+      <form (ngSubmit)="login()" class="login-form">
+        <div class="input-group">
+          <div class="input-wrapper">
+            <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+            <ion-item class="custom-input" lines="none">
+              <ion-label position="floating">E-mail Institucional</ion-label>
+              <ion-input 
+                type="email" 
+                [(ngModel)]="username" 
+                name="username" 
+                required
+                placeholder="exemplo@ifpb.edu.br">
+              </ion-input>
+            </ion-item>
+          </div>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Senha</ion-label>
-          <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
-        </ion-item>
+        <div class="input-group">
+          <div class="input-wrapper">
+            <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+            <ion-item class="custom-input" lines="none">
+              <ion-label position="floating">Senha de Acesso</ion-label>
+              <ion-input 
+                type="password" 
+                [(ngModel)]="password" 
+                name="password" 
+                required
+                placeholder="Digite sua senha">
+              </ion-input>
+            </ion-item>
+          </div>
+        </div>
 
-        <ion-item class="ion-margin-top">
-          <ion-label position="floating">Tipo de Usuário</ion-label>
-          <ion-select [(ngModel)]="userType" name="userType" interface="popover" required>
-            <ion-select-option value="administrator">Administrador</ion-select-option>
-            <ion-select-option value="teacher">Professor</ion-select-option>
-            <ion-select-option value="student">Aluno</ion-select-option>
-            </ion-select>
-        </ion-item>
-        <ion-button expand="block" type="submit" class="ion-margin-top">Entrar</ion-button>
+        <div class="input-group">
+          <div class="input-wrapper">
+            <ion-icon name="person-outline" class="input-icon"></ion-icon>
+            <ion-item class="custom-input" lines="none">
+              <ion-label position="floating">Tipo de Usuário</ion-label>
+              <ion-select [(ngModel)]="userType" name="userType" interface="popover" required>
+                <ion-select-option value="administrator">Administrador</ion-select-option>
+                <ion-select-option value="teacher">Professor</ion-select-option>
+                <ion-select-option value="student">Aluno</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </div>
+        </div>
+
+        <ion-button expand="block" type="submit" color="primary" class="login-button" [disabled]="!username || !password || !userType">
+          <ion-icon name="log-in-outline" slot="start"></ion-icon>
+          Entrar
+        </ion-button>
       </form>
 
-      <ion-text color="danger" *ngIf="errorMessage">
-        <p class="ion-text-center ion-margin-top">{{ errorMessage }}</p>
-      </ion-text>
-    </ion-card-content>
-  </ion-card>
+      <div class="error-message" *ngIf="errorMessage">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <span>{{ errorMessage }}</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer-section">
+      <p class="footer-text">IFMG - Instituto Federal de Cataguases</p>
+      <p class="footer-text">Desenvolvido por: Lucas Martins & Marcos Antônio</p>
+      <p class="footer-text">Versão 1.0.0</p>
+    </div>
+  </div>
 </ion-content>

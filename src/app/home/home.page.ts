@@ -40,6 +40,15 @@ export class HomePage {
     return this.alert.message;
   }
 
+  public get alertButtons() {
+    return [{
+      text: 'OK',
+      handler: () => {
+        this.dismissAlert();
+      }
+    }];
+  }
+
   private readonly SCHOOL_GEOFENCE = {
     latitude: 21.383269,
     longitude: -42.701335,
@@ -208,5 +217,62 @@ export class HomePage {
   
   dismissAlert() {
     this.alert.show = false;
+  }
+
+  // --- Métodos para o Mapa ---
+  
+  openMaps(): void {
+    if (this.currentLatitude && this.currentLongitude) {
+      const url = `https://www.google.com/maps/search/?api=1&query=${this.currentLatitude},${this.currentLongitude}`;
+      window.open(url, '_blank');
+    } else {
+      this.setAlert('Obtenha sua localização primeiro para abrir o mapa.', 'info');
+    }
+  }
+
+  getLocationStatusText(): string {
+    if (this.isInSchoolArea === null) {
+      return 'Localização não verificada';
+    }
+    return this.isInSchoolArea ? 'Dentro da área escolar' : 'Fora da área escolar';
+  }
+
+  getLocationStatusClass(): string {
+    if (this.isInSchoolArea === null) {
+      return '';
+    }
+    return this.isInSchoolArea ? 'success-text' : 'danger-text';
+  }
+
+  getLocationStatusIcon(): string {
+    if (this.isInSchoolArea === null) {
+      return 'location-outline';
+    }
+    return this.isInSchoolArea ? 'checkmark-circle' : 'close-circle';
+  }
+
+  getLocationStatusIconClass(): string {
+    if (this.isInSchoolArea === null) {
+      return 'info-icon';
+    }
+    return this.isInSchoolArea ? 'success-icon' : 'danger-icon';
+  }
+
+  getDistanceText(): string {
+    if (this.distanceToSchool === null) {
+      return 'Não calculada';
+    }
+    return `${this.distanceToSchool.toFixed(0)}m da escola`;
+  }
+
+  // --- Método de Logout ---
+  
+  logout(): void {
+    // Limpar dados do usuário se necessário
+    this.resetState();
+    this.dismissAlert();
+    
+    // Navegar para a página de login
+    window.location.href = '/login';
   }
 }

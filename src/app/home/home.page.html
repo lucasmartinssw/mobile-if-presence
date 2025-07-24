@@ -1,56 +1,121 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Presença Geolocalizada</ion-title>
+<ion-header [translucent]="true" class="custom-header">
+  <ion-toolbar class="custom-toolbar">
+    <ion-title class="custom-title">
+      <div class="title-container">
+        <span class="if-text">IF</span>
+        <span class="presence-text">PRESENCE</span>
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <div class="ion-padding">
-    <h1>Verificar Localização</h1>
-    <p>Clique no botão para verificar se você está na área da escola.</p>
-
-    <ion-button expand="block" (click)="getCurrentLocationAndValidate()">
-      Verificar Minha Localização
-    </ion-button>
-    <ion-button expand="block" color="success" class="ion-margin-top" (click)="registerAttendanceDirectly()">
-      Registrar Presença (Teste Manual)
-    </ion-button>
-    <!-- Exibir informações de localização para feedback (opcional) -->
-    <ion-card *ngIf="currentLatitude !== null">
-      <ion-card-header>
-        <ion-card-title>Sua Localização</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p>Latitude: {{ currentLatitude | number:'1.6-6' }}</p>
-        <p>Longitude: {{ currentLongitude | number:'1.6-6' }}</p>
-        <!-- Apenas mostra a distância se ela tiver sido calculada -->
-        <p *ngIf="distanceToSchool !== null">Distância da Escola: {{ distanceToSchool | number:'1.2-2' }} metros</p>
-        <!-- Mostra o status de área com cores -->
-        <p *ngIf="isInSchoolArea !== null">
-          Status:
-          <span [class.success]="isInSchoolArea" [class.danger]="!isInSchoolArea">
-            {{ isInSchoolArea ? 'Dentro da Área' : 'Fora da Área' }}
-          </span>
-        </p>
-      </ion-card-content>
-    </ion-card>
+<ion-content [fullscreen]="true" class="custom-content">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">Controle de Presença</h1>
+      <p class="hero-subtitle">Registre sua presença usando geolocalização</p>
+    </div>
   </div>
 
-  <!-- Componente IonAlert para exibir mensagens ao usuário -->
-  <ion-alert [isOpen]="showAlert" [message]="alertMessage" [buttons]="['OK']" (didDismiss)="dismissAlert()"></ion-alert>
+  <!-- Alert Messages -->
+  <ion-alert
+    [isOpen]="showAlert"
+    [header]="alert.type === 'success' ? 'Sucesso' : alert.type === 'danger' ? 'Erro' : 'Informação'"
+    [message]="alertMessage"
+    [buttons]="alertButtons">
+  </ion-alert>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Map Container -->
+    <div class="map-section">
+      <ion-card class="map-card">
+        <ion-card-header>
+          <ion-card-title class="map-title">
+            <ion-icon name="map-outline"></ion-icon>
+            Sua Localização
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content class="map-content">
+          <div id="mapContainer" class="map-container">
+            <!-- Mapa será renderizado aqui -->
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-section">
+      <ion-button 
+        expand="block" 
+        class="primary-button"
+        (click)="getCurrentLocationAndValidate()"
+        [disabled]="isLoading">
+        <ion-icon name="location-outline" slot="start"></ion-icon>
+        <span *ngIf="!isLoading">Verificar Localização</span>
+        <span *ngIf="isLoading">Verificando...</span>
+      </ion-button>
+      
+      <ion-button 
+        expand="block" 
+        fill="outline"
+        color="success" 
+        class="secondary-button"
+        (click)="openMaps()"
+        [disabled]="!currentLatitude || !currentLongitude">
+        <ion-icon name="map-outline" slot="start"></ion-icon>
+        Abrir no Maps
+      </ion-button>
+    </div>
+
+    <!-- Location Info Card -->
+    <div class="info-section" *ngIf="currentLatitude !== null">
+      <ion-card class="info-card">
+        <ion-card-header>
+          <ion-card-title class="info-title">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            Informações de Localização
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="location-info">
+            <div class="info-item">
+              <ion-icon [name]="getLocationStatusIcon()" [class]="getLocationStatusIconClass()"></ion-icon>
+              <div class="info-text">
+                <strong>Status da Localização</strong>
+                <span [class]="getLocationStatusClass()">{{ getLocationStatusText() }}</span>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <ion-icon name="navigate-outline" class="info-icon"></ion-icon>
+              <div class="info-text">
+                <strong>Coordenadas Atuais</strong>
+                <span *ngIf="currentLatitude && currentLongitude; else noLocation">
+                  {{ currentLatitude.toFixed(6) }}, {{ currentLongitude.toFixed(6) }}
+                </span>
+                <ng-template #noLocation>
+                  <span>Não obtidas ainda</span>
+                </ng-template>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <ion-icon name="school-outline" class="info-icon"></ion-icon>
+              <div class="info-text">
+                <strong>Distância da Escola</strong>
+                <span>{{ getDistanceText() }}</span>
+              </div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
 </ion-content>
-
-<!-- Estilos básicos para as classes 'success' e 'danger' -->
-<style>
-  .success {
-    color: var(--ion-color-success, #2dd36f);
-    /* Cor verde padrão do Ionic */
-    font-weight: bold;
-  }
-
-  .danger {
-    color: var(--ion-color-danger, #eb445a);
-    /* Cor vermelha padrão do Ionic */
-    font-weight: bold;
-  }
-</style>
