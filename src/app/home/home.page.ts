@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Geolocation, PermissionStatus } from '@capacitor/geolocation';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { lastValueFrom } from 'rxjs'; // Importação moderna para converter Observable em Promise
+import { lastValueFrom } from 'rxjs'; 
 
-// Em um projeto real, mova esta URL para os arquivos de ambiente
 const API_URL = 'http://localhost/api/jsonRecordPresence.php';
 
 @Component({
@@ -31,25 +30,15 @@ export class HomePage {
     show: false,
   };
 
-  // ==================================================================
-  // CORREÇÃO PARA COMPATIBILIDADE COM O TEMPLATE
-  // ==================================================================
-  /**
-   * Getter que expõe a visibilidade do alerta para o template HTML.
-   * O seu HTML usa `showAlert`, então este getter faz a ponte.
-   */
+ 
   public get showAlert(): boolean {
     return this.alert.show;
   }
 
-  /**
-   * Getter que expõe a mensagem do alerta para o template HTML.
-   * O seu HTML usa `alertMessage`, então este getter faz a ponte.
-   */
+ 
   public get alertMessage(): string {
     return this.alert.message;
   }
-  // ==================================================================
 
   private readonly SCHOOL_GEOFENCE = {
     latitude: 21.383269,
@@ -59,26 +48,23 @@ export class HomePage {
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Método de teste para registrar presença.
-   * AGORA COM O PAYLOAD CORRIGIDO.
-   */
+  
   async registerAttendanceDirectly(): Promise<void> {
     console.log('Tentando registrar presença com o payload corrigido...');
     this.setLoading(true);
 
     try {
-      // Em um app real, o ID do aluno viria de um serviço de autenticação
-      const testStudentId = 6; // Use um ID de aluno válido
+     
+      const testStudentId = 6; 
       
-      // 1. Obtenha um ID de chamada válido e ativo no seu banco de dados
-      const testRollCallId = 1; // SUBSTITUA PELO SEU ID DE CHAMADA ATIVO
+      
+      const testRollCallId = 1; 
 
       const attendanceData = {
-        // 2. CORRIGIDO: O nome do campo agora é 'id_student'
+       
         id_student: testStudentId,
         
-        // 3. ADICIONADO: O campo 'id_roll_call' que estava em falta
+        
         id_roll_call: testRollCallId,
         
         timestamp: new Date().toISOString(),
@@ -89,7 +75,7 @@ export class HomePage {
 
       console.log('Enviando dados de presença (corrigidos):', attendanceData);
 
-      // Usando a abordagem moderna com lastValueFrom
+      
       const response = await lastValueFrom(
         this.http.post(API_URL, attendanceData)
       );
@@ -105,9 +91,6 @@ export class HomePage {
     }
   }
 
-  /**
-   * Inicia o fluxo de validação de geolocalização.
-   */
   async getCurrentLocationAndValidate(): Promise<void> {
     console.log('Iniciando processo de validação de localização...');
     this.setLoading(true);
@@ -139,8 +122,7 @@ export class HomePage {
       if (this.distanceToSchool <= this.SCHOOL_GEOFENCE.radius) {
         this.isInSchoolArea = true;
         this.setAlert('Você está DENTRO da área da escola! ✅', 'success');
-        // Agora você poderia chamar o `registerAttendanceDirectly()` automaticamente
-        // this.registerAttendanceDirectly();
+        
       } else {
         this.isInSchoolArea = false;
         this.setAlert(`Você está FORA da área da escola. Distância: ${this.distanceToSchool.toFixed(2)}m. ❌`, 'danger');
