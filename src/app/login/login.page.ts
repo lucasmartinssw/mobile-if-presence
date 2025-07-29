@@ -18,7 +18,7 @@ export class LoginPage {
   userType!: string; 
   errorMessage: string = '';
 
-  private readonly LOGIN_API_URL = 'http://localhost/api/jsonLogin.php';
+  private readonly LOGIN_API_URL = 'http://ifpresence.educacao.ws/api/jsonLogin.php';
 
   constructor(private http: HttpClient, private router: Router) { }
 
